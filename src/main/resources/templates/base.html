@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="Layout(content)">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+    <!-- FontAwesome Kit -->
+    <script src="https://kit.fontawesome.com/22b08852d3.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+
+    <title th:text="${title}"></title>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav th:replace="includes/header::navbar"></nav>
+    <!-- END NAVBAR -->
+
+
+
+    <content th:replace="${content}"></content>
+
+
+
+    <!-- FOOTER -->
+    <footer th:replace="includes/footer::footer"></footer>
+    <!-- END FOOTER -->
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <!-- Custom Script -->
+    <script th:src="@{/js/main.js}"></script>
+</body>
+
+</html>
