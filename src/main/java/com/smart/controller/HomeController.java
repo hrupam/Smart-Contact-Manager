@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,9 @@ public class HomeController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@RequestMapping("/")
 	public String home(Model model) {
@@ -71,6 +75,8 @@ public class HomeController {
 			user.setEnabled(true);
 			user.setImageUrl("default.png");
 
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 			this.userRepository.save(user);
 
 			session.setAttribute("message", new Message("Successfully registered", "alert-success"));
@@ -83,8 +89,6 @@ public class HomeController {
 			System.out.println(e);
 			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
 			return "signup";
-
 		}
-
 	}
 }
