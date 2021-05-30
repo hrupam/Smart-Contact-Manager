@@ -46,17 +46,16 @@ public class HomeController {
 		return "signup";
 	}
 
-	@RequestMapping("/login")
-	public String login(Model model) {
-		model.addAttribute("title", "SCM | Login");
-		return "login";
+	@RequestMapping("/signin")
+	public String signin(Model model) {
+		model.addAttribute("title", "SCM | Signin");
+		return "signin";
 	}
 
 	@PostMapping("/user_registration")
 	public String registerUser(@Valid @ModelAttribute("user") User user, BindingResult bindingresult,
 			@RequestParam(name = "agreement", defaultValue = "false") boolean agreement,
-			@RequestParam(name = "confirm_password", defaultValue = "") String confirmPassword, Model m,
-			HttpSession session) {
+			@RequestParam(name = "confirm_password", defaultValue = "") String confirmPassword, HttpSession session) {
 
 		try {
 			if (!agreement) {

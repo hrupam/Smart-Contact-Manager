@@ -7,8 +7,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-uppercase">
+
                 <li class="nav-item me-2">
-                    <a class="nav-link active" aria-current="page" th:href="@{/}">
+                    <a class="nav-link" th:href="@{/}">
                         <i class="fas fa-house-user me-1"></i>
                         Home
                     </a>
@@ -16,18 +17,24 @@
 
                 <li class="nav-item me-2">
                     <a class="nav-link" th:href="@{/about}">
-                        <i class="fas fa-info me-1"></i>
+                        <i class="fas fa-file-alt me-1"></i>
                         About</a>
                 </li>
-                <li class="nav-item me-2">
-                    <a class="nav-link" th:href="@{/login}">
+                <li sec:authorize="isAnonymous()" class="nav-item me-2">
+                    <a class="nav-link" th:href="@{/signin}">
                         <i class="fas fa-sign-in-alt me-1"></i>
-                        Login</a>
+                        Sign In/Sign Up</a>
                 </li>
-                <li class="nav-item me-2">
-                    <a class="nav-link" th:href="@{/signup}">
-                        <i class="fas fa-user-plus me-1"></i>
-                        Sign Up</a>
+
+                <li sec:authorize="${isAuthenticated()}" class="nav-item me-2">
+                    <a class="nav-link" th:href="@{/user/index}">
+                        <i class="fas fa-address-book me-1"></i>
+                        Dashboard</a>
+                </li>
+                <li sec:authorize="${isAuthenticated()}" class="nav-item me-2">
+                    <a class="nav-link" th:href="@{/logout}">
+                        <i class="fas fa-sign-out-alt me-1"></i>
+                        Logout</a>
                 </li>
             </ul>
         </div>
