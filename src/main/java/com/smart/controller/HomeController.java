@@ -85,7 +85,6 @@ public class HomeController {
 			session.setAttribute("message", new Message("Email address already exists", "alert-danger"));
 			return "signup";
 		} catch (Exception e) {
-			System.out.println(e);
 			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
 			return "signup";
 		}

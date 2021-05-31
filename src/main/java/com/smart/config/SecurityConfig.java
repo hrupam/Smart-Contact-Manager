@@ -1,5 +1,6 @@
 package com.smart.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,33 +15,34 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public UserDetailsService getUserDetailsService() {
-		return new CustomUserDetailsService();
-	}
+//	Autowired by the object of CustomUserDetailsService class
+	@Autowired
+	private UserDetailsService userDetailsService;
 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder getPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-		daoAuthenticationProvider.setUserDetailsService(this.getUserDetailsService());
-		daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
-		return daoAuthenticationProvider;
+	public DaoAuthenticationProvider authProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(this.userDetailsService);
+		provider.setPasswordEncoder(this.getPasswordEncoder());
+		return provider;
 	}
 
+//	Optional
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.authenticationProvider(this.authenticationProvider());
+		auth.authenticationProvider(this.authProvider());
 	}
 
+//	TO SHOW ROLE BASED WEBPAGES, CUSTOM LOGIN PAGE AND SUCCESSFUL LOGIN REDIRECT PAGE
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/user/**").hasRole("USER")
-				.antMatchers("/**").permitAll().and().formLogin().loginPage("/signin").and().csrf().disable();
+				.antMatchers("/**").permitAll().and().formLogin().loginPage("/signin").defaultSuccessUrl("/user/index")
+				.and().csrf().disable();
 	}
 
 }
