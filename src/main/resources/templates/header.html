@@ -1,6 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" th:fragment="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/}">Smart Contact Manager</a>
+        <a class="navbar-brand" th:href="@{/}">
+            <span class="badge bg-light text-dark fs-5">SCM</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -10,7 +12,7 @@
 
                 <li sec:authorize="${isAuthenticated()}" class="nav-item me-2">
                     <a class="nav-link" th:href="@{/user/index}">
-                        <i class="fas fa-address-book me-1"></i>
+                        <i class="fas fa-chart-line me-1"></i>
                         Dashboard</a>
                 </li>
 

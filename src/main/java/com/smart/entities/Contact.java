@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "CONTACT")
@@ -16,7 +18,10 @@ public class Contact {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int cid;
 
+	@NotBlank(message = "Name cannot be blank")
+	@Size(min = 2, message = "Name must be minimum 2 characters")
 	private String name;
+
 	private String nickname;
 	private String work;
 	private String email;
@@ -24,6 +29,8 @@ public class Contact {
 
 	@Column(length = 1000)
 	private String description;
+
+	@NotBlank(message = "Phone number cannot be blank")
 	private String phone;
 
 	@ManyToOne
@@ -99,6 +106,13 @@ public class Contact {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	@Override
+	public String toString() {
+		return "Contact [cid=" + cid + ", name=" + name + ", nickname=" + nickname + ", work=" + work + ", email="
+				+ email + ", imageUrl=" + imageUrl + ", description=" + description + ", phone=" + phone + ", user="
+				+ user + "]";
 	}
 
 }

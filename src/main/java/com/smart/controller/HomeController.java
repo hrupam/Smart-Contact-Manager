@@ -62,7 +62,6 @@ public class HomeController {
 				throw new Exception("You must agree with T&C");
 			}
 			if (bindingresult.hasErrors()) {
-				System.out.println(bindingresult);
 				return "signup";
 			}
 			if (confirmPassword.isBlank()) {
