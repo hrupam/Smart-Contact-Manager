@@ -7,12 +7,12 @@
             <div class="col-md-6 offset-md-3">
 
                 <!-- MESSAGE -->
-                <!-- <div th:if="${session.message}" th:classappend="${session.message.type}"
+                <div th:if="${session.message}" th:classappend="${session.message.type}"
                     class="alert alert-dismissible fade show mt-2" role="alert">
                     <p class="text-center m-0" th:text="${session.message.content}"></p>
                     <th:block th:text="${#session.removeAttribute('message')}"></th:block>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div> -->
+                </div>
                 <!-- END MESSAGE -->
 
 
@@ -20,7 +20,7 @@
                 <h3 class="text-center m-2">Hi <span th:text="${user.name}" class="text-capitalize"></span>, add your
                     contact</h3>
 
-                <form method="POST" class="mb-2" th:action="@{/user/process-addcontact}" th:object="${contact}"
+                <form method="POST" class="mb-4" th:action="@{/user/process-addcontact}" th:object="${contact}"
                     enctype="multipart/form-data">
 
                     <div class="mb-3">
@@ -94,7 +94,7 @@
                         <label for="image" class="form-label">Photo</label>
                         <div class="input-group">
                             <div class="input-group-text"><i class="fas fa-camera"></i></div>
-                            <input class="form-control" type="file" id="image">
+                            <input class="form-control" name="profileImage" type="file" id="profileImage">
                         </div>
                     </div>
 

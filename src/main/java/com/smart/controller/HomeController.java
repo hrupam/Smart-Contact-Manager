@@ -58,16 +58,19 @@ public class HomeController {
 			@RequestParam(name = "confirm_password", defaultValue = "") String confirmPassword, HttpSession session) {
 
 		try {
-			if (!agreement) {
-				throw new Exception("You must agree with T&C");
-			}
+
 			if (bindingresult.hasErrors()) {
 				return "signup";
 			}
+
 			if (confirmPassword.isBlank()) {
 				throw new Exception("Please confirm your password");
 			} else if (!(user.getPassword()).equals(confirmPassword))
 				throw new Exception("Password didn't match");
+
+			if (!agreement) {
+				throw new Exception("You must agree with T&C");
+			}
 
 			user.setRole("ROLE_USER");
 			user.setEnabled(true);

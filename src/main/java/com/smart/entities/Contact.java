@@ -25,7 +25,7 @@ public class Contact {
 	private String nickname;
 	private String work;
 	private String email;
-	private String imageUrl;
+	private String image;
 
 	@Column(length = 1000)
 	private String description;
@@ -76,12 +76,20 @@ public class Contact {
 		this.email = email;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
+//	public String getImageUrl() {
+//		return image;
+//	}
+//
+//	public void setImageUrl(String imageUrl) {
+//		this.image = imageUrl;
+//	}
+
+	public String getImage() {
+		return image;
 	}
 
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getDescription() {
@@ -108,11 +116,11 @@ public class Contact {
 		this.user = user;
 	}
 
-	@Override
-	public String toString() {
-		return "Contact [cid=" + cid + ", name=" + name + ", nickname=" + nickname + ", work=" + work + ", email="
-				+ email + ", imageUrl=" + imageUrl + ", description=" + description + ", phone=" + phone + ", user="
-				+ user + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Contact [cid=" + cid + ", name=" + name + ", nickname=" + nickname + ", work=" + work + ", email="
+//				+ email + ", imageUrl=" + imageUrl + ", description=" + description + ", phone=" + phone + ", user="
+//				+ user + "]";
+//	}
 
 }
