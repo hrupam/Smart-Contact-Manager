@@ -15,7 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	Autowired by the object of CustomUserDetailsService class
+	/* Autowired by the object of CustomUserDetailsService class */
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -31,18 +31,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return provider;
 	}
 
-//	Optional
+	/* Optional */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(this.authProvider());
 	}
 
-//	TO SHOW ROLE BASED WEBPAGES, CUSTOM LOGIN PAGE AND SUCCESSFUL LOGIN REDIRECT PAGE
+	/*
+	 * TO SHOW ROLE BASED WEBPAGES, CUSTOM LOGIN PAGE AND SUCCESSFUL LOGIN REDIRECT
+	 * PAGE
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/user/**").hasRole("USER")
-				.antMatchers("/**").permitAll().and().formLogin().loginPage("/signin").defaultSuccessUrl("/user/index")
-				.and().csrf().disable();
+				.antMatchers("/**").permitAll().and().formLogin().loginPage("/signin")
+				.defaultSuccessUrl("/user/dashboard").and().csrf().disable();
 	}
 
 }

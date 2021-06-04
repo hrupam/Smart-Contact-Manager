@@ -6,6 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -46,13 +49,13 @@ public class UserController {
 		model.addAttribute("user", user);
 	}
 
-	@RequestMapping("/index")
+	@RequestMapping("/dashboard")
 	public String dashboard(Model model) {
-
 		model.addAttribute("title", "SCM | Dashboard");
 		return "normal/dashboard";
 	}
 
+//	Showing Contact Form Handler
 	@GetMapping("/addcontact")
 	public String contact(Model model) {
 		model.addAttribute("title", "SCM | Add Contact");
@@ -60,32 +63,37 @@ public class UserController {
 		return "normal/contact_form";
 	}
 
-//	ADDING CONTACT HANDLER
+//	ADD CONTACT HANDLER
 	@PostMapping("/process-addcontact")
 	public String addContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResult,
 			@RequestParam("profileImage") MultipartFile file, Principal principal, HttpSession session) {
 
 		try {
 
-			if (bindingResult.hasErrors()) {
+			if (bindingResult.hasErrors())
 				return "normal/contact_form";
-			}
 
 			if (!file.isEmpty()) {
-				contact.setImage(file.getOriginalFilename());
+
+//				adding datetime to image file name
+				String imgData[] = file.getOriginalFilename().split("\\.");
+				if (imgData.length != 2)
+					throw new Exception("Invalid image file. File must be in [filename].[extension] format.");
+
+				String imgFname = imgData[0] + "_" + LocalDateTime.now().toString();
+				String imgExt = imgData[1];
+
+				String imageName = imgFname + "." + imgExt;
+
+				contact.setImage(imageName);
 
 				File fileReference = new ClassPathResource("static/images/contactPhotos").getFile();
-
-				Path path = Paths.get(fileReference.getAbsolutePath() + File.separator + file.getOriginalFilename());
-
+				Path path = Paths.get(fileReference.getAbsolutePath() + File.separator + imageName);
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
 			}
 
 			contact.setUser(this.userRepository.getUserByUsername(principal.getName()));
-
 			this.contactRepository.save(contact);
-
 			session.setAttribute("message", new Message("Contact added successfully!", "alert-success"));
 			return "normal/contact_form";
 
@@ -93,6 +101,32 @@ public class UserController {
 			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
 			return "normal/contact_form";
 		}
+	}
+
+	@GetMapping("/contacts")
+	public String getContacts(Model model, Principal p) {
+		model.addAttribute("title", "SCM | Contacts");
+
+		User user = this.userRepository.getUserByUsername(p.getName());
+
+		/* THIS CAN ALSO BE USED */
+//		List<Contact> contacts = this.contactRepository.getContactsByUser(user);
+
+		List<Contact> contacts = this.contactRepository.getContactsByUserId(user.getId());
+
+		/* FOR SHOWING THE ID SEQUENCIALLY */
+		class IdCounter {
+			private int k = 0;
+
+			public int getIncrement() {
+				return ++this.k;
+			}
+		}
+
+		model.addAttribute("contacts", contacts);
+		model.addAttribute("counter", new IdCounter());
+
+		return "normal/contacts";
 	}
 
 }

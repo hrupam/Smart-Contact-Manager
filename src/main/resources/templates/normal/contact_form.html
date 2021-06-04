@@ -17,8 +17,8 @@
 
 
 
-                <h3 class="text-center m-2">Hi <span th:text="${user.name}" class="text-capitalize"></span>, add your
-                    contact</h3>
+                <h4 class="text-center m-2">Hi <span th:text="${user.name}" class="text-capitalize"></span>, add your
+                    contact</h4>
 
                 <form method="POST" class="mb-4" th:action="@{/user/process-addcontact}" th:object="${contact}"
                     enctype="multipart/form-data">
@@ -60,7 +60,7 @@
                         <label for="phone" class="form-label">Phone number</label>
                         <div class="input-group">
                             <div class="input-group-text"><i class="fas fa-phone"></i></div>
-                            <input name="phone" th:value="${contact.phone}" type="text"
+                            <input name="phone" th:value="${contact.phone}" type="number"
                                 th:classappend="${#fields.hasErrors('phone')}? 'is-invalid': '' " class="form-control"
                                 id="phone" placeholder="Enter phone number">
 
@@ -102,9 +102,7 @@
 
 
                     <div class="container text-center">
-                        <button type="submit" class="btn bg-primary text-white me-2">Submit</button>
-                        <button type="reset" class="btn bg-warning ms-2 me-2">Reset</button>
-
+                        <button type="submit" class="btn btn-outline-secondary">Save</button>
                     </div>
 
 
@@ -112,6 +110,14 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        tinymce.init({
+            selector: '#description'
+        });
+    </script>
 </section>
 
 </html>

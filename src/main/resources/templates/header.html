@@ -11,7 +11,7 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 text-uppercase">
 
                 <li sec:authorize="${isAuthenticated()}" class="nav-item me-2">
-                    <a class="nav-link" th:href="@{/user/index}">
+                    <a class="nav-link" th:href="@{/user/dashboard}">
                         <i class="fas fa-chart-line me-1"></i>
                         Dashboard</a>
                 </li>
