@@ -7,18 +7,21 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,7 +96,7 @@ public class UserController {
 
 			contact.setUser(this.userRepository.getUserByUsername(principal.getName()));
 			this.contactRepository.save(contact);
-			session.setAttribute("message", new Message("Contact added successfully!", "alert-success"));
+			session.setAttribute("message", new Message(contact.getName() + " added successfully!", "alert-success"));
 			return "normal/contact_form";
 
 		} catch (Exception e) {
@@ -102,8 +105,8 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/contacts")
-	public String getContacts(Model model, Principal p) {
+	@GetMapping("/contacts/{page}")
+	public String getContacts(@PathVariable("page") int page, Model model, Principal p, HttpSession session) {
 		model.addAttribute("title", "SCM | Contacts");
 
 		User user = this.userRepository.getUserByUsername(p.getName());
@@ -111,20 +114,16 @@ public class UserController {
 		/* THIS CAN ALSO BE USED */
 //		List<Contact> contacts = this.contactRepository.getContactsByUser(user);
 
-		List<Contact> contacts = this.contactRepository.getContactsByUserId(user.getId());
+		Pageable pageable = PageRequest.of(page, 4);
 
-		/* FOR SHOWING THE ID SEQUENCIALLY */
-		class IdCounter {
-			private int k = 0;
+		Page<Contact> contacts = this.contactRepository.getContactsByUserId(user.getId(), pageable);
 
-			@SuppressWarnings("unused")
-			public int getIncrement() {
-				return ++this.k;
-			}
-		}
+		if (page >= contacts.getTotalPages())
+			session.setAttribute("message", new Message("No more contacts available", "alert-warning"));
 
 		model.addAttribute("contacts", contacts);
-		model.addAttribute("counter", new IdCounter());
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", contacts.getTotalPages());
 
 		return "normal/contacts";
 	}
