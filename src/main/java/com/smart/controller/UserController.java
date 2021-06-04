@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -118,6 +117,7 @@ public class UserController {
 		class IdCounter {
 			private int k = 0;
 
+			@SuppressWarnings("unused")
 			public int getIncrement() {
 				return ++this.k;
 			}
