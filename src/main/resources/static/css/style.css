@@ -73,6 +73,21 @@ section {
           transform: scale(1.3);
 }
 
+.contacts .contact-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.contact-details-page .contact-image {
+  width: 20%;
+  height: 20%;
+  display: block;
+  margin: auto auto;
+}
+
 .sidebar {
   background-color: #697980;
   width: 100%;

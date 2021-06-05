@@ -114,7 +114,7 @@ public class UserController {
 		/* THIS CAN ALSO BE USED */
 //		List<Contact> contacts = this.contactRepository.getContactsByUser(user);
 
-		Pageable pageable = PageRequest.of(page, 4);
+		Pageable pageable = PageRequest.of(page, 5);
 
 		Page<Contact> contacts = this.contactRepository.getContactsByUserId(user.getId(), pageable);
 
@@ -126,6 +126,28 @@ public class UserController {
 		model.addAttribute("totalPages", contacts.getTotalPages());
 
 		return "normal/contacts";
+	}
+
+	@GetMapping("/contact/{cid}")
+	public String getContactDetails(@PathVariable("cid") int cid, Model model, Principal p, HttpSession session) {
+
+		try {
+
+			User user = this.userRepository.getUserByUsername(p.getName());
+
+			Contact contact = this.contactRepository.getContactByUserIdAndCid(user.getId(), cid);
+
+			model.addAttribute("title", "SCM | Contact");
+
+			if (contact == null)
+				throw new Exception("Contact doesnot exist!");
+
+			model.addAttribute("contact", contact);
+
+		} catch (Exception e) {
+			session.setAttribute("message", new Message(e.getMessage(), "alert-warning"));
+		}
+		return "normal/contact_details";
 	}
 
 }
