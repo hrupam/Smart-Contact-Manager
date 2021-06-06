@@ -150,4 +150,25 @@ public class UserController {
 		return "normal/contact_details";
 	}
 
+	@SuppressWarnings("finally")
+	@GetMapping("/delete/{cid}")
+	public String deleteContact(@PathVariable("cid") int cid, Principal p, HttpSession session) {
+
+		try {
+			Contact contact = this.contactRepository.findById(cid).get();
+			User user = this.userRepository.getUserByUsername(p.getName());
+			if (contact.getUser().getId() != user.getId())
+				throw new Exception("You are trying to delete a contact which doesnot exist!");
+
+			this.contactRepository.delete(contact);
+
+			session.setAttribute("message", new Message("Contact deleted successfully", "alert-success"));
+
+		} catch (Exception e) {
+			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
+
+		} finally {
+			return "redirect:/user/contacts/0";
+		}
+	}
 }
