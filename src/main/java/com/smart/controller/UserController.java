@@ -47,7 +47,7 @@ public class UserController {
 	public void userData(Model model, Principal principal) {
 		User user = this.userRepository.getUserByUsername(principal.getName());
 		String firstName = user.getName().split(" ")[0];
-		user.setName(firstName);
+		model.addAttribute("firstname", firstName);
 		model.addAttribute("user", user);
 	}
 
@@ -58,11 +58,17 @@ public class UserController {
 	}
 
 	@RequestMapping("/profile")
-	public String viewProfile() {
+	public String viewProfile(Model m, Principal p) {
+
+		User user = this.userRepository.getUserByUsername(p.getName());
+		m.addAttribute("user", user);
+		m.addAttribute("contactsCount", user.getContacts().size());
+		m.addAttribute("title", "SCM | User Profile");
+
 		return "normal/profile";
 	}
 
-//	Showing Contact Form Handler
+//	Showing Contact Form
 	@GetMapping("/addcontact")
 	public String addContactForm(Model model) {
 		model.addAttribute("title", "SCM | Add Contact");
