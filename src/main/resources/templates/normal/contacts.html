@@ -48,8 +48,9 @@
                                     <td th:text=${contact.phone}></td>
 
                                     <td>
-                                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Update"><i class="fas fa-pen"></i></button>
+                                        <a th:href="@{'/user/update/'+${contact.cid}}"
+                                            class="btn btn-outline-primary btn-sm" data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Update"><i class="fas fa-pen"></i></a>
 
                                         <button th:onclick="|deleteContact(${contact.cid})|" data-bs-toggle="tooltip"
                                             data-bs-placement="top" title="Delete"

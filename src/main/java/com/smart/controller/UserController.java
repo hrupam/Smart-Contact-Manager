@@ -57,9 +57,14 @@ public class UserController {
 		return "normal/dashboard";
 	}
 
+	@RequestMapping("/profile")
+	public String viewProfile() {
+		return "normal/profile";
+	}
+
 //	Showing Contact Form Handler
 	@GetMapping("/addcontact")
-	public String contact(Model model) {
+	public String addContactForm(Model model) {
 		model.addAttribute("title", "SCM | Add Contact");
 		model.addAttribute("contact", new Contact());
 		return "normal/contact_form";
@@ -67,7 +72,7 @@ public class UserController {
 
 //	ADD CONTACT HANDLER
 	@PostMapping("/process-addcontact")
-	public String addContact(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResult,
+	public String addContactHandler(@Valid @ModelAttribute("contact") Contact contact, BindingResult bindingResult,
 			@RequestParam("profileImage") MultipartFile file, Principal principal, HttpSession session) {
 
 		try {
@@ -168,6 +173,58 @@ public class UserController {
 			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
 
 		} finally {
+			return "redirect:/user/contacts/0";
+		}
+	}
+
+	@GetMapping("/update/{cid}")
+	public String updateContactForm(@PathVariable("cid") int cid, Principal p, HttpSession session, Model m) {
+
+		try {
+
+			User user = this.userRepository.getUserByUsername(p.getName());
+			Contact contact = this.contactRepository.findById(cid).get();
+			if (contact.getUser().getId() != user.getId())
+				throw new Exception("You are trying to update a contact which doesnot exist!");
+
+			m.addAttribute("title", "SCM | Update Contact");
+			m.addAttribute("contact", contact);
+			return "normal/updatecontact_form";
+
+		} catch (Exception e) {
+			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
+			return "redirect:/user/contacts/0";
+		}
+
+	}
+
+	@PostMapping("/process-updatecontact")
+	public String updateContactHandler(@Valid @ModelAttribute("contact") Contact updatedContact,
+			BindingResult bindingResult, @RequestParam("contactId") String contactId, Principal p,
+			HttpSession session) {
+
+		try {
+
+			if (bindingResult.hasErrors())
+				return "normal/updatecontact_form";
+
+			User user = this.userRepository.getUserByUsername(p.getName());
+			Contact contact = this.contactRepository.findById(Integer.parseInt(contactId)).get();
+			if (contact.getUser().getId() != user.getId())
+				throw new Exception("Don't try to be oversmart!");
+
+			contact.setName(updatedContact.getName());
+			contact.setNickname(updatedContact.getNickname());
+			contact.setEmail(updatedContact.getEmail());
+			contact.setPhone(updatedContact.getPhone());
+			contact.setWork(updatedContact.getWork());
+			contact.setDescription(updatedContact.getDescription());
+
+			this.contactRepository.save(contact);
+			session.setAttribute("message", new Message("Contact has been updated successfully", "alert-success"));
+			return "redirect:/user/contacts/0";
+		} catch (Exception e) {
+			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
 			return "redirect:/user/contacts/0";
 		}
 	}

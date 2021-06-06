@@ -98,7 +98,8 @@ $sidebar-height: 40px;
 .sidebar {
   background-color: $primary-color;
   width: 100%;
-  height: $sidebar-height;
+  width: 50px;
+  // height: $sidebar-height;
   display: flex;
   align-items: center;
   position: sticky;
@@ -107,6 +108,8 @@ $sidebar-height: 40px;
   z-index: 5;
 
   .burger {
+    background-color: $primary-color;
+    width: 50px;
     margin-left: 15px;
     cursor: pointer;
     color: $primary-color;
@@ -118,7 +121,7 @@ $sidebar-height: 40px;
     position: absolute;
     top: 0;
     left: 0;
-    margin-top: $sidebar-height;
+    // margin-top: $sidebar-height;
     background-color: $primary-color;
     padding: 0;
     color: white;
@@ -131,6 +134,8 @@ $sidebar-height: 40px;
     transform: translateX(-100%);
     transition: all 0.3s ease-in-out;
     z-index: 3;
+    padding-top: 50px;
+
     li {
       list-style: none;
       font-size: 17px;
@@ -163,6 +168,8 @@ $sidebar-height: 40px;
 .sidebar-active {
   .burger {
     transform: translateX($menu-width);
+    margin-left: 0;
+    text-align: center;
   }
 
   .menu {

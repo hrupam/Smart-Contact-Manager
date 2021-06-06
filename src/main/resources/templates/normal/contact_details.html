@@ -28,7 +28,7 @@
 
 
                         <div class="card-body">
-                            <h5 class="card-title mt-2" th:text="${contact.name}+' '+'('+${contact.nickname}+')' "></h5>
+                            <h4 class="card-title mt-2" th:text="${contact.name}+' '+'('+${contact.nickname}+')' "></h4>
 
                             <table class="table mt-4">
                                 <thead>
@@ -61,8 +61,8 @@
                             </table>
 
                             <div class="btn-group mt-5">
-                                <button class="btn btn-outline-primary btn-md"><i
-                                        class="fas fa-pen me-1"></i>Update</button>
+                                <a th:href="@{'/user/update/'+${contact.cid}}" class="btn btn-outline-primary btn-md"><i
+                                        class="fas fa-pen me-1"></i>Update</a>
 
                                 <button th:onclick="|deleteContact(${contact.cid})|"
                                     class="btn btn-outline-danger btn-md ms-1"><i
