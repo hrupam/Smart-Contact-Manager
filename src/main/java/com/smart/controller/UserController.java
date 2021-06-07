@@ -7,6 +7,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -116,6 +118,7 @@ public class UserController {
 		}
 	}
 
+//	GET ALL CONTACTS HANDLER
 	@GetMapping("/contacts/{page}")
 	public String getContacts(@PathVariable("page") int page, Model model, Principal p, HttpSession session) {
 		model.addAttribute("title", "SCM | Contacts");
@@ -139,6 +142,7 @@ public class UserController {
 		return "normal/contacts";
 	}
 
+//	GET SPECIFIC CONTACT DETAILS HANDLER
 	@GetMapping("/contact/{cid}")
 	public String getContactDetails(@PathVariable("cid") int cid, Model model, Principal p, HttpSession session) {
 
@@ -183,6 +187,7 @@ public class UserController {
 		}
 	}
 
+//	SHOWING CONTACT UPDATE FORM
 	@GetMapping("/update/{cid}")
 	public String updateContactForm(@PathVariable("cid") int cid, Principal p, HttpSession session, Model m) {
 
@@ -204,6 +209,7 @@ public class UserController {
 
 	}
 
+//	UPDATE CONTACT HANDLER
 	@PostMapping("/process-updatecontact")
 	public String updateContactHandler(@Valid @ModelAttribute("contact") Contact updatedContact,
 			BindingResult bindingResult, @RequestParam("contactId") String contactId, Principal p,
@@ -233,5 +239,25 @@ public class UserController {
 			session.setAttribute("message", new Message(e.getMessage(), "alert-danger"));
 			return "redirect:/user/contacts/0";
 		}
+	}
+
+//	SEARCH HANDLER
+	@GetMapping("/process-search")
+	public String search(@RequestParam("search") String search, Principal p, Model m, HttpSession session) {
+
+		User user = this.userRepository.getUserByUsername(p.getName());
+		List<Contact> allContacts = user.getContacts();
+		List<Contact> filteredContacts = new ArrayList<>();
+		for (var x : allContacts) {
+			if (x.getName().toLowerCase().contains(search.toLowerCase()))
+				filteredContacts.add(x);
+		}
+		if (filteredContacts.size() == 0)
+			session.setAttribute("message", new Message("No contacts found with this name!", "alert-warning"));
+
+		m.addAttribute("contacts", filteredContacts);
+
+		return "normal/contacts";
+
 	}
 }
