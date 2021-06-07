@@ -54,8 +54,10 @@ public class UserController {
 	}
 
 	@RequestMapping("/dashboard")
-	public String dashboard(Model model) {
+	public String dashboard(Principal p, Model model) {
+		int contactsCount = this.userRepository.getUserByUsername(p.getName()).getContacts().size();
 		model.addAttribute("title", "SCM | Dashboard");
+		model.addAttribute("contactsCount", contactsCount);
 		return "normal/dashboard";
 	}
 
@@ -64,7 +66,6 @@ public class UserController {
 
 		User user = this.userRepository.getUserByUsername(p.getName());
 		m.addAttribute("user", user);
-		m.addAttribute("contactsCount", user.getContacts().size());
 		m.addAttribute("title", "SCM | User Profile");
 
 		return "normal/profile";

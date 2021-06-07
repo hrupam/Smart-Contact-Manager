@@ -2,9 +2,30 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::Layout(~{::section})">
 
 
-<section>
-    <h2>this is user dashboard</h2>
-    <h3 th:text="${user}"></h3>
+<section class="dashboard d-flex flex-column justify-content-center align-items-center text-center">
+    <div>
+        <h3>Hi, <span class="text-capitalize" th:text="${user.name}"></span></h3>
+        <h4>Welcome to Smart Contact Manager</h4>
+        <h4>A smarter way to add and manage your contacts efficiently.</h4>
+    </div>
+    <div class="mt-5">
+
+        <div th:if="${contactsCount!=0}">
+            <h4>So far, you have saved only <span class="badge bg-secondary" th:text="${contactsCount}"></span>
+                contacts.
+            </h4>
+            <h5>Click on the button below to view all your contacts</h5>
+            <a th:href="@{/user/contacts/0}" class="btn btn-outline-primary mt-2">View Contacts</a>
+        </div>
+
+        <div th:if="${contactsCount==0}">
+            <h4>You haven't saved any of your contacts yet.</h4>
+            <h5>Start adding your contacts by clicking on the button below</h5>
+            <a th:href="@{/user/addcontact}" class="btn btn-outline-primary mt-2">Add Contact</a>
+        </div>
+    </div>
+
+
 </section>
 
 </html>

@@ -17,8 +17,7 @@
 
 
 
-                <h4 class="text-center m-2">Hi <span th:text="${user.name}" class="text-capitalize"></span>, add your
-                    contact</h4>
+                <h4 class="text-center m-2">Add Contact</h4>
 
                 <form method="POST" class="mb-4" th:action="@{/user/process-addcontact}" th:object="${contact}"
                     enctype="multipart/form-data">

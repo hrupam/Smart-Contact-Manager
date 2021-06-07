@@ -48,10 +48,6 @@
                                         <td th:text="${user.role}"></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">Contacts Saved</th>
-                                        <td th:text="${contactsCount}"></td>
-                                    </tr>
-                                    <tr>
                                         <th scope="row">Account Status</th>
                                         <td th:if="${user.isEnabled}" th:text="Active"></td>
                                     </tr>
