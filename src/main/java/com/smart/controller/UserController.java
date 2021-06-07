@@ -133,8 +133,11 @@ public class UserController {
 
 		Page<Contact> contacts = this.contactRepository.getContactsByUserId(user.getId(), pageable);
 
-		if (page >= contacts.getTotalPages())
-			session.setAttribute("message", new Message("No more contacts available", "alert-warning"));
+		if (contacts.getTotalPages() != 0 && page >= contacts.getTotalPages()) {
+			session.setAttribute("message", new Message("Page limit exceeded", "alert-warning"));
+			return "redirect:/user/contacts/0";
+
+		}
 
 		model.addAttribute("contacts", contacts);
 		model.addAttribute("currentPage", page);
@@ -254,7 +257,13 @@ public class UserController {
 				filteredContacts.add(x);
 		}
 		if (filteredContacts.size() == 0)
-			session.setAttribute("message", new Message("No contacts found with this name!", "alert-warning"));
+			session.setAttribute("message", new Message("No contacts found with the name " + search, "alert-warning"));
+		else {
+			String message = filteredContacts.size() > 1 ? "contacts" : "contact";
+
+			session.setAttribute("message", new Message(
+					filteredContacts.size() + " " + message + " found with the name " + search, "alert-success"));
+		}
 
 		m.addAttribute("contacts", filteredContacts);
 
