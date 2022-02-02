@@ -65,6 +65,7 @@ public class UserController {
 	public String viewProfile(Model m, Principal p) {
 
 		User user = this.userRepository.getUserByUsername(p.getName());
+		user.setRole(user.getRole().split("_")[1]);
 		m.addAttribute("user", user);
 		m.addAttribute("title", "SCM | User Profile");
 

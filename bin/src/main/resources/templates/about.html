@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+
+<body>
+    <section class="about-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <h3 class="mt-3">About Developer</h3>
+
+                    <div class="card mt-3 mb-3">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img th:src="@{/images/about.jpg}" class="about-image card-img-top" alt="image">
+                            </div>
+
+                            <div class="col-md-8">
+
+                                <div class="card-body">
+                                    <h4 class="card-title">Rupam Hari</h4>
+                                    <h5 class="card-subtitle mb-3 text-muted">Java Developer</h5>
+                                    <p class="card-text">I'm B.Tech in Computer Science & Engineering (CSE) from
+                                        Brainware Group of Institutions-SDET under MAKAUT (formerly known as WBUT).</p>
+                                    <p class="card-text">This project is aimed to develop a web application where users
+                                        can
+                                        create their account and store multiple contacts. Basically, a user can do CRUD
+                                        operations on their contacts with tight security so that any phishing operations
+                                        cannot
+                                        be done.</p>
+                                    <p class="card-text">This project is developed using <strong>Spring Boot, Spring
+                                            Security,
+                                            JPA &
+                                            Hibernate, MySQL, Thymeleaf and Bootstrap.</strong></p>
+
+                                </div>
+                            </div>
+                            <div class="card-footer bg-secondary text-center">
+                                <div class="social mt-1">
+                                    <a th:href="@{https://www.linkedin.com/in/rupam-hari-aa8999187/}" target="_blank"><i
+                                            class="fab fa-linkedin-in social-hover me-2"></i></a>
+                                    <a th:href="@{https://www.instagram.com/rupam.hari_/}" target="_blank"><i
+                                            class="fab fa-instagram social-hover ms-2"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+    </section>
+</body>
+
+</html>

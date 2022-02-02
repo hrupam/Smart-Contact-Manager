@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+
+
+<section class="sign-in-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+
+                <!--Spring Security MESSAGE -->
+                <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                    <p class="text-center m-0">Wrong credentials!</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                    <p class="text-center m-0">You have been logged out!</p>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <!-- END MESSAGE -->
+
+                <h3 class="text-center m-2">Signin Here!</h3>
+
+                <form th:action="@{/signin}" method="POST" class="mb-3">
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Username</label>
+                        <div class="input-group">
+                            <div class="input-group-text"><i class="fas fa-at"></i></div>
+                            <input name="username" type="email" class="form-control" id="email"
+                                placeholder="Enter your username (Email)">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <div class="input-group-text"><i class="fas fa-key"></i></div>
+                            <input name="password" type="password" class="form-control" id="password"
+                                placeholder="Enter your password">
+                        </div>
+                    </div>
+
+                    <div class="container text-center">
+                        <button type="submit" class="btn bg-primary text-white me-2">Submit</button>
+                    </div>
+                    <div class="container text-center">
+                        <a th:href="@{/signup}" class="btn btn-link m-3">Don't have an account? Register Here</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</html>

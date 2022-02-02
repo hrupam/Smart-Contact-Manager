@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="normal/base::Layout(~{::section})">
+
+<section class="contact-details-page">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+
+                <!-- MESSAGE -->
+                <div th:if="${session.message}" th:classappend="${session.message.type}" class="alert text-center"
+                    role="alert">
+                    <p class="m-0" th:text="${session.message.content}"></p>
+                    <th:block th:text="${#session.removeAttribute('message')}"></th:block>
+                </div>
+                <!-- END MESSAGE -->
+
+                <div th:if="${contact!=null}">
+                    <h4 class="text-center mt-2 mb-4">Contact Details</h4>
+
+                    <div class="card mt-3 text-center mb-2">
+
+                        <!-- <img class="contact-image card-img-top" th:if="${contact.image!=null}"
+                            th:src="@{'/images/contactPhotos/'+${contact.image}}">
+
+                        <img class="contact-image card-img-top" th:if="${contact.image==null}"
+                            th:src="@{'/images/contactPhotos/default.png'}"> -->
+
+
+                        <div class="card-body">
+                            <h4 class="card-title mt-2" th:text="${contact.name}+' '+'('+${contact.nickname}+')' "></h4>
+
+                            <table class="table mt-4">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#ID</th>
+                                        <th scope="col" th:text="${'SCM'+contact.cid}"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">Phone</th>
+                                        <td th:text="${contact.phone}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Email</th>
+                                        <td th:text="${contact.email}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Work Details</th>
+                                        <td th:text="${contact.work}"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Description</th>
+                                        <td th:utext="${contact.description}"></td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                            <div class="btn-group mt-5">
+                                <a th:href="@{'/user/update/'+${contact.cid}}" class="btn btn-outline-primary btn-md"><i
+                                        class="fas fa-pen me-1"></i>Update</a>
+
+                                <button th:onclick="|deleteContact(${contact.cid})|"
+                                    class="btn btn-outline-danger btn-md ms-1"><i
+                                        class="fas fa-trash-alt me-1"></i>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</html>
