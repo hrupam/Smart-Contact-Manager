@@ -63,7 +63,7 @@ public class HomeController {
 				return "signup";
 			}
 
-			if (confirmPassword.isBlank()) {
+			if (confirmPassword==null || confirmPassword.isEmpty()) {
 				throw new Exception("Please confirm your password");
 			} else if (!(user.getPassword()).equals(confirmPassword))
 				throw new Exception("Password didn't match");

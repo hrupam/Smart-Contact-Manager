@@ -1,5 +1,6 @@
 package com.smart.config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.smart.entities.User;
+
+import javax.xml.crypto.dsig.SignatureMethod;
 
 @SuppressWarnings("serial")
 public class CustomUserDetails implements UserDetails {
@@ -22,7 +25,9 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(this.user.getRole());
-		return List.of(simpleGrantedAuthority);
+		List<SimpleGrantedAuthority> t=new ArrayList<>();
+		t.add(simpleGrantedAuthority);
+		return t;
 	}
 
 	@Override

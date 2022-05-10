@@ -16,11 +16,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "subscriber")
 public class User {
-
-	public User() {
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

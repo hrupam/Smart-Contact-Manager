@@ -253,7 +253,7 @@ public class UserController {
 		User user = this.userRepository.getUserByUsername(p.getName());
 		List<Contact> allContacts = user.getContacts();
 		List<Contact> filteredContacts = new ArrayList<>();
-		for (var x : allContacts) {
+		for (Contact x : allContacts) {
 			if (x.getName().toLowerCase().contains(search.toLowerCase()))
 				filteredContacts.add(x);
 		}
